@@ -62,7 +62,7 @@ export default function socketPlugin() {
         }
 
         if (queryData.used[0].label === 'getAllReports') {
-          store.dispatch('reportslist/setAllReports', queryData.used[0].receivedData)
+          store.dispatch('reportslist/setAll', queryData.used[0].receivedData)
         }
 
         if (queryData.used[0].label === 'getAllTasks') {
@@ -113,6 +113,7 @@ export default function socketPlugin() {
       }
     }
     ws.onerror = function (event) {
+      store.commit('appData/SET_WS_IS_AUTH', false)
       console.log('Ошибка WebSocket')
       console.log(event)
       ws.close()

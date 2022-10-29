@@ -62,11 +62,12 @@
         </template>
 
         <template #cell(show_details)="row">
-
+          
+          <b-media vertical-align="center">
           <b-button size="sm" @click="row.toggleDetails" class="mr-2">
             {{ row.detailsShowing ? 'Скрыть' : 'Показать' }} детали
           </b-button>
-
+          </b-media>
         </template>
 
 
