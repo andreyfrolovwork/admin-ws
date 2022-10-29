@@ -179,6 +179,26 @@ export default {
     },
   },
   actions: {
+    addImage(ctx, payload) {
+      console.log('STORE__addImage() data:', payload)
+      const data = JSON.stringify({
+        event: 'syscall',
+        label: 'updateMatch',
+        query: {
+          model: 'MatchList',
+          filter: {
+            _id: payload._id,
+          },
+          execute: {
+            function: 'setScreen',
+            params: [payload.arrayBuffer, payload.mimeType],
+          },
+        },
+      })
+      console.log(data)
+      this._vm.$ws.send(data)
+    },
+
     addMember(ctx, payload) {
       console.log('STORE__addMember() form:', payload)
       const data = JSON.stringify({
@@ -221,11 +241,18 @@ export default {
           filter: {
             _id: id,
           },
-          fields: 'members',
+          fields: 'id game score members',
           update: {
             count: 'one',
             set: {
+              id: s.id,
+              game: s.game,
               members: [...s.members],
+              score: {
+                mapName: s.score.mapName,
+                command1: s.score.command1,
+                command2: s.score.command2,
+              },
             },
           },
         },
