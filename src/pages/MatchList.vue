@@ -2,6 +2,7 @@
 
   <div>
 
+    <AddMatch/>
     <b-card no-body class="mb-0">
       <!--      <button @click="sort">sort</button>    -->
       <div class="m-2">
@@ -9,16 +10,18 @@
         <b-row>
 
           <!-- Per Page -->
-          <b-col cols="12" md="6" class="d-flex align-items-center justify-content-start mb-1 mb-md-0">
+          <b-col cols="12" md="4" class="d-flex align-items-center justify-content-start mb-1 mb-md-0">
             <label>Показать</label>
             <v-select v-model="perPage" :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                       :options="$store.state.matchList.perPageOptions"
                       :clearable="false" class="per-page-selector d-inline-block mx-50"/>
             <label>записей</label>
           </b-col>
-
+          <b-col cols="12" md="4" class="d-flex align-items-center justify-content-start mb-1 mb-md-0">
+            <b-button v-b-modal.modal-3 size="sm">Добавить матч</b-button>
+          </b-col>
           <!-- Search -->
-          <b-col cols="12" md="6">
+          <b-col cols="12" md="4">
             <div class="d-flex align-items-center justify-content-end">
               <b-form-input v-model="searchQuery" class="d-inline-block mr-1"
                             placeholder="Поиск..."/>
@@ -87,7 +90,7 @@
               </template>
               <template #cell(command)="member">
                 <b-media sm="3" v-if="row.item.isEdit" vertical-align="center">
-                  <b-dropdown text="Выбрать команду" >
+                  <b-dropdown text="Выбрать команду">
                     <b-dropdown-item>
                         <span @click="changeField('command1',{id:row.item._id,field:`members.${member.index}.command`})"
                               class="align-middle ml-50">Команда 1(CT)</span>
@@ -148,23 +151,23 @@
               <div class="stat-row-item m-5px">Command 1:</div>
 
               <b-form-input v-if="row.item.isEdit" class="stat-row-item stat-item"
-                                  :value="row.item.score.command1"
-                                  @change="changeField($event,{id:row.item._id,field:`score.command1`})"
-                                  placeholder="Amount"></b-form-input>
+                            :value="row.item.score.command1"
+                            @change="changeField($event,{id:row.item._id,field:`score.command1`})"
+                            placeholder="Amount"></b-form-input>
               <div v-else class="stat-row-item m-5px"><b>{{ row.item.score.command1 }}</b></div>
               <div class="stat-row-item m-5px">Command 2:</div>
 
               <b-form-input v-if="row.item.isEdit" class="stat-row-item stat-item"
-                                  :value="row.item.score.command2"
-                                  @change="changeField($event,{id:row.item._id,field:`score.command2`})"
-                                  placeholder="Amount"></b-form-input>
+                            :value="row.item.score.command2"
+                            @change="changeField($event,{id:row.item._id,field:`score.command2`})"
+                            placeholder="Amount"></b-form-input>
               <div v-else class="stat-row-item m-5px"><b>{{ row.item.score.command2 }}</b></div>
               <div class="stat-row-item m-5px">Map name:</div>
 
               <b-form-input v-if="row.item.isEdit" class="stat-row-item stat-item"
-                                  :value="row.item.score.mapName"
-                                  @change="changeField($event,{id:row.item._id,field:`score.mapName`})"
-                                  placeholder="Amount"></b-form-input>
+                            :value="row.item.score.mapName"
+                            @change="changeField($event,{id:row.item._id,field:`score.mapName`})"
+                            placeholder="Amount"></b-form-input>
               <div v-else class="stat-row-item m-5px"><b>{{ row.item.score.mapName }}</b></div>
             </div>
             <br>
@@ -174,71 +177,7 @@
               </div>
               <div class="stat-row-item m-5px jc-center">
                 <b-button size="sm" v-b-modal.modal-1>Добавить member</b-button>
-                <b-modal id="modal-1" title="Добавить member">
-                  <div>
-                    <div>
-                      <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-                        <b-form-group
-                            id="input-group-1"
-                            label="Имя:"
-                            label-for="input-1"
-                        >
-                          <b-form-input
-                              id="input-1"
-                              v-model="form.name"
-                              type="text"
-                              placeholder="Введите имя"
-                              required
-                          ></b-form-input>
-                        </b-form-group>
-
-                        <b-form-group id="input-group-2" label="Команда:" label-for="input-2">
-                          <b-form-input
-                              id="input-2"
-                              v-model="form.command"
-                              placeholder="Введите команду"
-                              required
-                          ></b-form-input>
-                        </b-form-group>
-
-                        <b-form-group id="input-group-2" label="deaths:" label-for="input-2">
-                          <b-form-input
-                              id="input-2"
-                              v-model="form.kills"
-                              placeholder="Введите количество deaths"
-                              required
-                          ></b-form-input>
-                        </b-form-group>
-
-                        <b-form-group id="input-group-2" label="Kills:" label-for="input-2">
-                          <b-form-input
-                              id="input-2"
-                              v-model="form.deaths"
-                              placeholder="Введите количество kills"
-                              required
-                          ></b-form-input>
-                        </b-form-group>
-
-                        <b-form-group id="input-group-2" label="Assist:" label-for="input-2">
-                          <b-form-input
-                              id="input-2"
-                              v-model="form.assists"
-                              placeholder="Введите количество assists"
-                              required
-                          ></b-form-input>
-                        </b-form-group>
-
-                        <b-button type="submit" variant="primary" @click="$store.dispatch('matchList/addMember',{
-                          form,
-                          _id:row.item._id
-                        })">Submit
-                        </b-button>
-                        <b-button type="reset" variant="danger">Reset</b-button>
-                      </b-form>
-                    </div>
-                  </div>
-
-                </b-modal>
+                <AddMember :id="row.item._id" />
               </div>
               <div class="stat-row-item m-5px jc-center">
                 <b-button v-if="row.item.isEdit" size="sm" @click="$store.dispatch('matchList/save', row.item._id)">
@@ -316,7 +255,8 @@ import {
   BFormSelect
 } from 'bootstrap-vue'
 import vSelect from "vue-select"
-
+import AddMatch from '@/pages/components/AddMatch.vue'
+import AddMember from '@/pages/components/AddMember.vue'
 export default {
   name: "TasksPage",
   components: {
@@ -334,7 +274,6 @@ export default {
     BDropdownItem,
     BPagination,
     vSelect,
-
     BFormCheckbox,
     BProgress,
     BListGroupItem,
@@ -344,21 +283,14 @@ export default {
     BForm,
     BFormGroup,
     BFormCheckboxGroup,
-    BFormSelect
+    BFormSelect,
+    AddMatch,
+    AddMember
   },
   data() {
     return {
       testOwner2: '',
-      form: {
-        name: '',
-        command: '',
-        kills: 0,
-        deaths: 0,
-        assists: 0,
-        checked: []
-      },
-      file: null,
-      show: true
+      file: null
     }
   },
   computed: {
@@ -417,19 +349,6 @@ export default {
     onSubmit(event) {
       event.preventDefault()
     },
-    onReset(event) {
-      event.preventDefault()
-      // Reset our form values
-      this.form.name = ''
-      this.form.command = ''
-      this.form.kills = 0
-      this.form.deaths = 0
-      this.form.assists = 0
-      this.show = false
-      this.$nextTick(() => {
-        this.show = true
-      })
-    }
   },
   mounted() {
     this.$store.dispatch('matchList/getAll')
@@ -461,6 +380,7 @@ export default {
 .stat-item {
   width: 60px;
 }
+
 .score-bl {
 
 }

@@ -179,6 +179,31 @@ export default {
     },
   },
   actions: {
+    addMatch(ctx, payload) {
+      console.log('STORE__addMatch() data:', payload)
+      const data = JSON.stringify({
+        event: 'syscall',
+        label: 'updateMatch',
+        query: {
+          model: 'MatchList',
+          execute: {
+            function: 'log',
+            params: [
+              payload.id,
+              payload.game,
+              [],
+              {
+                mapName: payload.mapName,
+                command1: payload.command1,
+                command2: payload.command2,
+              },
+            ],
+          },
+        },
+      })
+      console.log(data)
+      this._vm.$ws.send(data)
+    },
     addImage(ctx, payload) {
       console.log('STORE__addImage() data:', payload)
       const data = JSON.stringify({
