@@ -26,7 +26,7 @@ const router = new VueRouter({
     { path: '/', redirect: { name: 'main-page' } },
     {
       path: '/main2',
-      name: 'main-page',
+      name: 'main-page2',
       component: () => import('@/views/dashboard/ecommerce/Ecommerce-copy2.vue'),
     },
     {

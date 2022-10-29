@@ -1,7 +1,7 @@
 const path = require('path')
 
 module.exports = {
-  publicPath: '/admin-panel',
+  publicPath: '/',
   /*  lintOnSave: false,*/
   css: {
     loaderOptions: {
