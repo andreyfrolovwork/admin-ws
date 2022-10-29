@@ -210,6 +210,7 @@ export default {
       ctx.commit('SORT')
     },
     getAllUsers() {
+      console.log('STORE__getAllUsers()')
       this._vm.$ws.send(
         JSON.stringify({
           event: 'query',

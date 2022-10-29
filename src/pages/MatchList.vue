@@ -130,6 +130,73 @@
                 <b-button size="sm" @click="row.toggleDetails">Скрыть детали</b-button>
               </div>
               <div class="stat-row-item m-5px jc-center">
+                <b-button size="sm" v-b-modal.modal-1>Добавить member</b-button>
+                <b-modal id="modal-1" title="Добавить member">
+                  <div>
+                    <div>
+                      <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+                        <b-form-group
+                            id="input-group-1"
+                            label="Имя:"
+                            label-for="input-1"
+                        >
+                          <b-form-input
+                              id="input-1"
+                              v-model="form.name"
+                              type="text"
+                              placeholder="Введите имя"
+                              required
+                          ></b-form-input>
+                        </b-form-group>
+
+                        <b-form-group id="input-group-2" label="Команда:" label-for="input-2">
+                          <b-form-input
+                              id="input-2"
+                              v-model="form.command"
+                              placeholder="Введите команду"
+                              required
+                          ></b-form-input>
+                        </b-form-group>
+
+                        <b-form-group id="input-group-2" label="deaths:" label-for="input-2">
+                          <b-form-input
+                              id="input-2"
+                              v-model="form.kills"
+                              placeholder="Введите количество deaths"
+                              required
+                          ></b-form-input>
+                        </b-form-group>
+
+                        <b-form-group id="input-group-2" label="Kills:" label-for="input-2">
+                          <b-form-input
+                              id="input-2"
+                              v-model="form.deaths"
+                              placeholder="Введите количество kills"
+                              required
+                          ></b-form-input>
+                        </b-form-group>
+
+                        <b-form-group id="input-group-2" label="Assist:" label-for="input-2">
+                          <b-form-input
+                              id="input-2"
+                              v-model="form.assists"
+                              placeholder="Введите количество assists"
+                              required
+                          ></b-form-input>
+                        </b-form-group>
+
+                        <b-button type="submit" variant="primary" @click="$store.dispatch('matchList/addMember',{
+                          form,
+                          _id:row.item._id
+                        })">Submit</b-button>
+                        <b-button type="reset" variant="danger">Reset</b-button>
+                      </b-form>
+                    </div>
+                  </div>
+
+                </b-modal>
+              </div>
+              <div class="stat-row-item m-5px jc-center">
                 <b-button v-if="row.item.isEdit" size="sm" @click="$store.dispatch('matchList/save', row.item._id)">
                   Сохранить
                 </b-button>
@@ -184,7 +251,12 @@
 <script>
 import {
   BCard, BRow, BCol, BFormInput, BButton, BTable, BMedia, BAvatar, BLink,
-  BBadge, BDropdown, BDropdownItem, BPagination, BFormCheckbox, BProgress, BListGroupItem, BListGroup, BFormDatepicker
+  BBadge, BDropdown, BDropdownItem, BPagination, BFormCheckbox, BProgress, BListGroupItem, BListGroup, BFormDatepicker,
+    BModal,
+    BForm,
+    BFormGroup,
+    BFormCheckboxGroup,
+    BFormSelect
 } from 'bootstrap-vue'
 import vSelect from "vue-select"
 
@@ -210,11 +282,25 @@ export default {
     BProgress,
     BListGroupItem,
     BListGroup,
-    BFormDatepicker
+    BFormDatepicker,
+    BModal,
+    BForm,
+    BFormGroup,
+    BFormCheckboxGroup,
+    BFormSelect
   },
   data() {
     return {
-      testOwner2: ''
+      testOwner2: '',
+      form: {
+        name : '',
+        command : '',
+        kills : 0,
+        deaths : 0,
+        assists : 0,
+        checked: []
+      },
+      show: true
     }
   },
   computed: {
@@ -266,7 +352,22 @@ export default {
     addReward(IDF) {
       this.$store.commit('tasks/ADD_REWARD', IDF)
     },
-
+    onSubmit(event) {
+      event.preventDefault()
+    },
+    onReset(event) {
+      event.preventDefault()
+      // Reset our form values
+      this.form.name = ''
+      this.form.command = ''
+      this.form.kills = 0
+      this.form.deaths = 0
+      this.form.assists = 0
+      this.show = false
+      this.$nextTick(() => {
+        this.show = true
+      })
+    }
   },
   mounted() {
     this.$store.dispatch('matchList/getAll')

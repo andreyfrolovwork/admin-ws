@@ -179,6 +179,35 @@ export default {
     },
   },
   actions: {
+    addMember(ctx, payload) {
+      console.log('STORE__addMember() form:', payload)
+      const data = JSON.stringify({
+        event: 'syscall',
+        label: 'updateMatch',
+        query: {
+          model: 'MatchList',
+          filter: {
+            _id: payload._id,
+          },
+          execute: {
+            function: 'addRecords',
+            params: [
+              {
+                name: payload.form.name,
+                command: payload.form.command,
+                statistic: {
+                  kills: payload.form.kills,
+                  deaths: payload.form.deaths,
+                  assists: payload.form.assists,
+                },
+              },
+            ],
+          },
+        },
+      })
+      console.log(data)
+      this._vm.$ws.send(data)
+    },
     save(ctx, id) {
       console.log(id)
       const s = ctx.state.arraySorted[getIdStandart(ctx.state, id)]

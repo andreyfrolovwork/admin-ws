@@ -105,6 +105,10 @@ export default function socketPlugin() {
           used: [JSON.parse(data.used[0])],
         }
         queryData.used[0].callResult = JSON.stringify(queryData.used[0].callResult)
+
+        if (queryData.used[0].label === 'updateMatch') {
+          store.dispatch('matchList/getAll')
+        }
         console.log(queryData)
       }
     }
