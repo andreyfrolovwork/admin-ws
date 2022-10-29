@@ -216,15 +216,14 @@
         <b-row>
 
           <b-col cols="12" sm="6" class="d-flex align-items-center justify-content-center justify-content-sm-start">
-                        <span class="text-muted">Показано {{ $store.state.tasks.from }} до {{ $store.state.tasks.to }} из {{
-                            $store.state.tasks.usersArray.length
-                          }}
+            <span>
+            {{ $store.state.matchList.array.length}}
                           записей</span>
           </b-col>
           <!-- Pagination -->
           <b-col cols="12" sm="6" class="d-flex align-items-center justify-content-center justify-content-sm-end">
 
-            <b-pagination v-model="currentPage" :total-rows="$store.state.tasks.usersArray.length" :per-page="perPage"
+            <b-pagination v-model="currentPage" :total-rows="$store.state.matchList.array.length" :per-page="perPage"
                           first-number last-number
                           class="mb-0 mt-1 mt-sm-0" prev-class="prev-item" next-class="next-item">
               <template #prev-text>
@@ -258,7 +257,7 @@ import vSelect from "vue-select"
 import AddMatch from '@/pages/components/AddMatch.vue'
 import AddMember from '@/pages/components/AddMember.vue'
 export default {
-  name: "TasksPage",
+  name: "MatchListPage",
   components: {
     BCard,
     BRow,
@@ -296,10 +295,10 @@ export default {
   computed: {
     perPage: {
       set: function (value) {
-        this.$store.dispatch('tasks/setPerPage', value)
+        this.$store.dispatch('matchList/setPerPage', value)
       },
       get: function () {
-        return this.$store.state.tasks.perPage
+        return this.$store.state.matchList.perPage
       }
     },
     testOwner: {
@@ -315,18 +314,18 @@ export default {
     searchQuery: {
       set: function (value) {
         console.log('set query', value)
-        this.$store.dispatch('tasks/setSearchQuery', value)
+        this.$store.dispatch('matchList/setSearchQuery', value)
       },
       get: function () {
-        return this.$store.state.tasks.searchQuery
+        return this.$store.state.matchList.searchQuery
       }
     },
     currentPage: {
       set: function (page) {
-        this.$store.dispatch('tasks/setCurrentPage', page)
+        this.$store.dispatch('matchList/setCurrentPage', page)
       },
       get: function () {
-        return this.$store.state.tasks.currentPage
+        return this.$store.state.matchList.currentPage
       }
     }
   },
@@ -342,9 +341,6 @@ export default {
         value,
         IDF
       })
-    },
-    addReward(IDF) {
-      this.$store.commit('tasks/ADD_REWARD', IDF)
     },
     onSubmit(event) {
       event.preventDefault()

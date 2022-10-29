@@ -19,10 +19,10 @@
                 placeholder="Введите id"
                 required
             ></b-form-input>
-            <b-form-invalid-feedback :state="validation">
+            <b-form-invalid-feedback :state="validationId">
               Id не должен быть пустым
             </b-form-invalid-feedback>
-            <b-form-valid-feedback :state="validation">
+            <b-form-valid-feedback :state="validationId">
               Отлично, идем дальше.
             </b-form-valid-feedback>
           </b-form-group>
@@ -34,10 +34,10 @@
                 placeholder="Введите game"
                 required
             ></b-form-input>
-            <b-form-invalid-feedback :state="validation">
+            <b-form-invalid-feedback :state="validationGame">
               Game не должен быть пустым
             </b-form-invalid-feedback>
-            <b-form-valid-feedback :state="validation">
+            <b-form-valid-feedback :state="validationGame">
               Отлично, идем дальше.
             </b-form-valid-feedback>
           </b-form-group>
@@ -107,8 +107,11 @@ export default {
     }
   },
   computed: {
-    validation() {
-      return this.form.id !== "" && this.form.game !== ""
+    validationId() {
+      return this.form.id !== ""
+    },
+    validationGame() {
+      return this.form.game !== ""
     }
   },
   methods: {

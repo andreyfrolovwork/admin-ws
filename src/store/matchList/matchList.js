@@ -104,7 +104,7 @@ export default {
         state.array = state.initArray
       } else {
         const uNew = state.initArray.filter((el) => {
-          if (el.reason.includes(state.searchQuery)) {
+          if (el.id.includes(state.searchQuery)) {
             return true
           }
         })
@@ -147,7 +147,7 @@ export default {
         state.array = state.initArray
       }
       const uNew = state.initArray.filter((el) => {
-        if (el.reason.includes(searchQuery)) {
+        if (el.id.includes(searchQuery)) {
           return true
         }
       })
