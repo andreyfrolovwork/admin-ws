@@ -47,6 +47,16 @@ const router = new VueRouter({
       component: () => import('@/pages/TasksPage.vue'),
     },
     {
+      path: '/tasks-static',
+      name: 'tasks-static',
+      component: () => import('@/pages/StaticTasksPage.vue'),
+    },
+    {
+      path: '/tasks-dynamic',
+      name: 'tasks-dynamic',
+      component: () => import('@/pages/TasksPage.vue'),
+    },
+    {
       path: '/error-404',
       name: 'error-404',
       component: () => import('@/views/error/Error404.vue'),

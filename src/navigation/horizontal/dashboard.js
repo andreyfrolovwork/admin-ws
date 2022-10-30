@@ -29,21 +29,14 @@ export default [
     icon: 'TrelloIcon',
     route: 'tasks-page',
   },
-
-  // {
-  //   header: 'Dashboards',
-  //   icon: 'HomeIcon',
-  //   children: [
-  //     {
-  //       title: 'eCommerce',
-  //       route: 'dashboard-ecommerce',
-  //       icon: 'ShoppingCartIcon',
-  //     },
-  //     {
-  //       title: 'Analytics',
-  //       route: 'dashboard-analytics',
-  //       icon: 'ActivityIcon',
-  //     },
-  //   ],
-  // },
+  {
+    title: 'Static task',
+    icon: 'TrelloIcon',
+    route: 'tasks-static',
+  },
+  {
+    title: 'Dynamic task',
+    icon: 'TrelloIcon',
+    route: 'tasks-dynamic',
+  },
 ]

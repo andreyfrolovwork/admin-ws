@@ -2,52 +2,41 @@ export default [
   {
     title: 'Главная',
     icon: 'HomeIcon',
-    route: 'main-page'
+    route: 'main-page',
   },
   {
     title: 'Пользователи',
     icon: 'UserIcon',
-    route: 'users-page'
+    route: 'users-page',
   },
   {
     title: 'Матчи',
     icon: 'PlayIcon',
-    route: 'matches-page'
+    route: 'matches-page',
   },
   {
     title: 'Репорты',
     icon: 'AlertCircleIcon',
-    route: 'reports-page'
+    route: 'reports-page',
   },
   {
     title: 'Заказы',
     icon: 'FileTextIcon',
-    route: 'orders-page'
+    route: 'orders-page',
   },
   {
     title: 'Задания',
     icon: 'TrelloIcon',
-    route: 'tasks-page'
+    route: 'tasks-page',
   },
-/*  {
-    title: 'Faq',
-    route: 'pages-faq',
-    icon: 'HelpCircleIcon',
-  },*/
-  // {
-  //   title: 'Dashboards',
-  //   icon: 'HomeIcon',
-  //   tag: '2',
-  //   tagVariant: 'light-warning',
-  //   children: [
-  //     {
-  //       title: 'eCommerce',
-  //       route: 'dashboard-ecommerce',
-  //     },
-  //     {
-  //       title: 'Analytics',
-  //       route: 'dashboard-analytics',
-  //     },
-  //   ],
-  // },
+  {
+    title: 'Static task',
+    icon: 'TrelloIcon',
+    route: 'tasks-static',
+  },
+  {
+    title: 'Dynamic task',
+    icon: 'TrelloIcon',
+    route: 'tasks-dynamic',
+  },
 ]
