@@ -76,6 +76,10 @@ export default function socketPlugin() {
         if (queryData.used[0].label === 'getAllStaticTasks') {
           store.dispatch('staticTasks/setAll', queryData.used[0].receivedData)
         }
+        if (queryData.used[0].label === 'getAllDynamicTasks') {
+          store.dispatch('dynamicTasks/setAll', queryData.used[0].receivedData)
+        }
+
         if (queryData.used[0].label === 'getAllMatches') {
           store.dispatch('matchList/setAll', queryData.used[0].receivedData)
         }
@@ -94,6 +98,9 @@ export default function socketPlugin() {
 
         if (queryData.used[0].label === 'updateStaticTasks') {
           store.dispatch('staticTasks/getAll')
+        }
+        if (queryData.used[0].label === 'updateDynamicTasks') {
+          store.dispatch('dynamicTasks/getAll')
         }
 
         if (queryData.used[0].label === 'updateMatch') {
@@ -118,6 +125,9 @@ export default function socketPlugin() {
         }
         if (queryData.used[0].label === 'updateStaticTasks') {
           store.dispatch('staticTasks/getAll')
+        }
+        if (queryData.used[0].label === 'updateDynamicTasks') {
+          store.dispatch('dynamicTasks/getAll')
         }
         console.log(queryData)
       }

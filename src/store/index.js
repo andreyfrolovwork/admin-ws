@@ -13,6 +13,7 @@ import mainPage from './main/main.js'
 import matchList from './matchList/matchList.js'
 import reportslist from './reportslist/reportslist.js'
 import staticTasks from './statictasks/staticTasks.js'
+import dynamicTasks from './dynamicTasks/dynamicTasks.js'
 import orderList from './orderlist/orderList.js'
 
 import socketPlugin from './socketPlugin/socketPlugin.js'
@@ -29,6 +30,7 @@ export default new Vuex.Store({
     reportslist,
     orderList,
     staticTasks,
+    dynamicTasks,
     tasks,
     app,
     appConfig,
