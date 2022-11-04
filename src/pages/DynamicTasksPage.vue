@@ -16,7 +16,7 @@
             <label>записей</label>
           </b-col>
           <b-col cols="12" md="4" class="d-flex align-items-center justify-content-start mb-1 mb-md-0">
-            <b-button v-b-modal.modal-add-dynamic-task size="sm">Добавить dynamic task</b-button>
+            <b-button variant="primary" v-b-modal.modal-add-dynamic-task size="sm">Добавить dynamic task</b-button>
           </b-col>
           <!-- Search -->
           <b-col cols="12" md="4">
@@ -161,10 +161,10 @@
         </template>
 
         <template #cell(actions)="data">
-          <b-button v-if="data.item.isEdit" @click="$store.dispatch('dynamicTasks/save', data.item._id)" size="sm m-5px">
+          <b-button variant="primary" v-if="data.item.isEdit" @click="$store.dispatch('dynamicTasks/save', data.item._id)" size="sm m-5px">
             Сохранить
           </b-button>
-          <b-button v-if="data.item.isEdit" @click="$store.commit('dynamicTasks/EDIT',data.item._id)" size="sm m-5px">
+          <b-button variant="primary" v-if="data.item.isEdit" @click="$store.commit('dynamicTasks/EDIT',data.item._id)" size="sm m-5px">
             Отмена
           </b-button>
           <b-dropdown v-else variant="link" no-caret>

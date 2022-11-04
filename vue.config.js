@@ -2,7 +2,7 @@ const path = require('path')
 
 module.exports = {
   publicPath: '/',
-  /* lintOnSave: false,*/
+  lintOnSave: false,
   css: {
     loaderOptions: {
       sass: {

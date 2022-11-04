@@ -4,7 +4,7 @@
       <button @click="sendAuth">sendAuth</button>
       <button @click="testDispatch">test</button>
       <button @click="sendQuery">send Query</button>
-      <textarea name="query" id="" cols="30" rows="10" v-model="query">
+      <textarea name="query" id="" cols="30" rows="100" v-model="query">
     </textarea>
       <div>{{ query }}</div>
     </div>

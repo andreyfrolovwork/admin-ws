@@ -18,7 +18,7 @@
             <label>записей</label>
           </b-col>
           <b-col cols="12" md="4" class="d-flex align-items-center justify-content-start mb-1 mb-md-0">
-            <b-button v-b-modal.modal-3 size="sm">Добавить матч</b-button>
+            <b-button variant="primary"  v-b-modal.modal-3 size="sm">Добавить матч</b-button>
           </b-col>
           <!-- Search -->
           <b-col cols="12" md="4">
@@ -64,7 +64,7 @@
         <template #cell(show_details)="row">
 
           <b-media vertical-align="center">
-          <b-button size="sm" @click="row.toggleDetails" class="mr-2">
+          <b-button variant="primary" size="sm" @click="row.toggleDetails" class="mr-2">
             {{ row.detailsShowing ? 'Скрыть' : 'Показать' }} детали
           </b-button>
           </b-media>
@@ -174,23 +174,23 @@
             <br>
             <div class="stat-row">
               <div class="stat-row-item m-5px jc-center">
-                <b-button size="sm" @click="row.toggleDetails">Скрыть детали</b-button>
+                <b-button variant="primary" size="sm" @click="row.toggleDetails">Скрыть детали</b-button>
               </div>
               <div class="stat-row-item m-5px jc-center">
-                <b-button size="sm" v-b-modal.modal-1>Добавить member</b-button>
+                <b-button variant="primary" size="sm" v-b-modal.modal-1>Добавить member</b-button>
                 <AddMember :id="row.item._id" />
               </div>
               <div class="stat-row-item m-5px jc-center">
-                <b-button v-if="row.item.isEdit" size="sm" @click="$store.dispatch('matchList/save', row.item._id)">
+                <b-button variant="primary" v-if="row.item.isEdit" size="sm" @click="$store.dispatch('matchList/save', row.item._id)">
                   Сохранить
                 </b-button>
-                <b-button v-else size="sm" @click="$store.commit('matchList/EDIT', row.item._id)">Редактировать
+                <b-button variant="primary" v-else size="sm" @click="$store.commit('matchList/EDIT', row.item._id)">Редактировать
                 </b-button>
 
               </div>
               <div class="stat-row-item m-5px jc-center">
 
-                <b-button size="sm" v-b-modal.modal-2>Добавить изображение</b-button>
+                <b-button variant="primary" size="sm" v-b-modal.modal-2>Добавить изображение</b-button>
                 <b-modal id="modal-2" title="Добавить изображение">
                   <div>
                     <div>
@@ -202,7 +202,7 @@
                 </b-modal>
               </div>
               <div class="stat-row-item m-5px jc-center">
-                <b-button size="sm" @click="$store.dispatch('matchList/getAll')">Отмена</b-button>
+                <b-button variant="primary" size="sm" @click="$store.dispatch('matchList/getAll')">Отмена</b-button>
               </div>
             </div>
 

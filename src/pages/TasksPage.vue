@@ -72,7 +72,7 @@
 
         <template #cell(show_details)="row">
 
-          <b-button size="sm" @click="row.toggleDetails" class="mr-2">
+          <b-button variant="primary" size="sm" @click="row.toggleDetails" class="mr-2">
             {{ row.detailsShowing ? 'Скрыть' : 'Показать' }} детали
           </b-button>
 
@@ -188,7 +188,7 @@
                     </b-list-group-item>
                   </b-list-group>
                   <div class="m-5px " v-if="row.item.isEdit">
-                    <b-button @click="addReward({id:row.item._id})">Add reward</b-button>
+                    <b-button variant="primary" @click="addReward({id:row.item._id})">Add reward</b-button>
                   </div>
 
 
@@ -229,17 +229,17 @@
 
             <div class="t-rewards">
               <div class="t-rewards-item">
-                <b-button size="sm" @click="row.toggleDetails">Скрыть детали</b-button>
+                <b-button variant="primary" size="sm" @click="row.toggleDetails">Скрыть детали</b-button>
               </div>
               <div class="t-rewards-item">
-                <b-button v-if="row.item.isEdit" size="sm" @click="$store.dispatch('tasks/saveTask', row.item._id)">
+                <b-button variant="primary" v-if="row.item.isEdit" size="sm" @click="$store.dispatch('tasks/saveTask', row.item._id)">
                   Сохранить
                 </b-button>
-                <b-button v-else size="sm" @click="$store.commit('tasks/EDIT_TASK', row.item._id)">Редактировать</b-button>
+                <b-button variant="primary" v-else size="sm" @click="$store.commit('tasks/EDIT_TASK', row.item._id)">Редактировать</b-button>
 
               </div>
               <div class="t-rewards-item">
-                <b-button size="sm" @click="$store.dispatch('tasks/getAllTasks')">Отмена</b-button>
+                <b-button variant="primary" size="sm" @click="$store.dispatch('tasks/getAllTasks')">Отмена</b-button>
               </div>
             </div>
 

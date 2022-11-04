@@ -102,5 +102,11 @@ export default {
       enableScrollToTop,
     }
   },
+  mounted(){
+    console.log('app mounted')
+  },
+  beforeUnmount(){
+    console.log('before unmount app')
+  }
 }
 </script>
