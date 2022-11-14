@@ -54,8 +54,10 @@ export default {
       },
     ],
     fields: [
+      { key: 'avatar', label: 'avatar' },
       { key: 'id', label: 'id' },
       { key: 'nickname', label: 'nickname' },
+      { key: 'prefix', label: 'prefix' },
       { key: 'role', label: 'role' },
       /*   { key: 'Действия' },*/
     ],
@@ -67,17 +69,7 @@ export default {
     /* totalUsers: 24,*/
     perPage: 10,
     pages: 1,
-  },
-  getters: {
-    /*  getUsersCount: (state) => state.users.length,
-                getUsers: (state) => {
-                  let sorted = []
-                  sorted = sort(state.usersArray, {
-                    currentPage: state.currentPage,
-                    perPage: state.perPage,
-                  })
-                  return sorted
-                },*/
+    prefixes: ['YouTube', 'Funny'],
   },
   mutations: {
     SET_CURRENT_PAGE(state, currentPage) {
@@ -117,27 +109,27 @@ export default {
       for (let user in usersData) {
         users.push(usersData[user])
       }
-
+      users = users.map((user) => {
+        let avatar = ''
+        if (user.profile.hasOwnProperty('avatar')) {
+          let binary = Buffer.from(user.profile.avatar.buffer.data) //or Buffer.from(data, 'binary')
+          let blob = new Blob([binary], { type: 'image/png' })
+          let urlCreator = window.URL || window.webkitURL
+          let imageUrl = urlCreator.createObjectURL(blob)
+          avatar = imageUrl
+          /*          let img = document.querySelector(`#${user._id}`)
+          img.src = imageUrl*/
+        }
+        return {
+          ...user,
+          avatar: avatar,
+        }
+      })
       state.data.statisticsItems[1].title = users.length
       state.data.statisticsProfit.count = users.length
 
       state.usersArray = users
       state.usersInitArr = users
-      /*      let users = []
-
-                        for (let i = 0; i < 20; i++) {
-                          for (let user in usersData) {
-                            users.push(usersData[user])
-                          }
-                        }
-                        const nus = users.map((user, i) => {
-                          return {
-                            ...user,
-                            id: i,
-                          }
-                        })
-                        state.data.statisticsItems[1].title = nus.length
-                        state.usersArray = nus*/
     },
     SORT_WITH_SEARCH_QUERY(state, searchQuery) {
       if (searchQuery === '') {
@@ -160,6 +152,9 @@ export default {
     },
     SET_SEARCH_QUERY(state, searchQuery) {
       state.searchQuery = searchQuery
+    },
+    SET_PREFIXES(state, prefixes) {
+      state.prefixes = prefixes
     },
   },
   actions: {
@@ -209,6 +204,40 @@ export default {
       ctx.commit('SET_ALL_USERS', users)
       ctx.commit('SORT')
     },
+    getUserPrefix() {
+      console.log('STORE__getAllUsers()')
+      this._vm.$ws.send(
+        JSON.stringify({
+          event: 'syscall',
+          label: 'getUserPrefix',
+          query: {
+            model: 'User',
+            execute: {
+              function: 'getPrefixes',
+              params: [],
+            },
+          },
+        })
+      )
+    },
+    setPrefix(ctx, payload) {
+      console.log('STORE__setPrefix()')
+      this._vm.$ws.send(
+        JSON.stringify({
+          event: 'syscall',
+          label: 'setPrefix',
+          query: {
+            method: 'get',
+            model: 'User',
+            needFeedback: true,
+            execute: {
+              function: 'setPrefix',
+              params: [payload.nickname, payload.prefix],
+            },
+          },
+        })
+      )
+    },
     getAllUsers() {
       console.log('STORE__getAllUsers()')
       this._vm.$ws.send(
@@ -219,7 +248,7 @@ export default {
             method: 'get',
             model: 'User',
             filter: {},
-            fields: 'id profile.nickname role',
+            fields: 'id profile.nickname profile.avatar role prefix',
           },
         })
       )
@@ -227,6 +256,24 @@ export default {
     setPerPage(ctx, perPage) {
       ctx.commit('SET_PER_PAGE', perPage)
       ctx.commit('SORT')
+    },
+    addPrefix(ctx, prefix) {
+      console.log('STORE__addPrefix()')
+      this._vm.$ws.send(
+        JSON.stringify({
+          event: 'syscall',
+          label: 'addPrefix',
+          query: {
+            method: 'get',
+            model: 'User',
+            needFeedback: true,
+            execute: {
+              function: 'addPrefix',
+              params: [prefix],
+            },
+          },
+        })
+      )
     },
   },
 }

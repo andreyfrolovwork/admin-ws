@@ -1,15 +1,15 @@
 <template>
   <b-nav-item-dropdown right toggle-class="d-flex align-items-center dropdown-user-link" class="dropdown-user">
     <template #button-content>
-      <div class="d-sm-flex d-none user-nav">
+<!--      <div class="d-sm-flex d-none user-nav">
         <p class="user-name font-weight-bolder mb-0">
-          {{ userData.fullName || userData.username }}
+          {{$store.state.appData.user.username}}
         </p>
-        <span class="user-status">{{ userData.role }}</span>
-      </div>
-      <b-avatar size="40" :src="userData.avatar" variant="light-primary" badge class="badge-minimal"
+        <span class="user-status">{{$store.state.appData.user.role}}123</span>
+      </div>-->
+      <b-avatar size="40"  variant="light-primary" badge class="badge-minimal"
         badge-variant="success">
-        <feather-icon v-if="!userData.fullName" icon="UserIcon" size="22" />
+        <feather-icon  icon="UserIcon" size="22" />
       </b-avatar>
     </template>
 

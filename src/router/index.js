@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '@/store/index.js'
 
 Vue.use(VueRouter)
 
@@ -89,5 +90,18 @@ router.afterEach(() => {
     appLoading.style.display = 'none'
   }
 })
+
+/*router.beforeEach((to, from, next) => {
+  console.log(store)
+  if (!store.state.appData.isAuth) {
+    if (to.fullPath === '/login') {
+      next()
+    } else {
+      next('/login')
+    }
+  } else {
+    next()
+  }
+})*/
 
 export default router

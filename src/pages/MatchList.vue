@@ -1,7 +1,5 @@
 <template>
-
   <div>
-
     <AddMatch/>
     <b-card no-body class="mb-0">
       <!--      <button @click="sort">sort</button>    -->
@@ -177,7 +175,7 @@
                 <b-button variant="primary" size="sm" @click="row.toggleDetails">Скрыть детали</b-button>
               </div>
               <div class="stat-row-item m-5px jc-center">
-                <b-button variant="primary" size="sm" v-b-modal.modal-1>Добавить member</b-button>
+<!--                <b-button variant="primary" size="sm" v-b-modal.modal-1>Добавить member</b-button>-->
                 <AddMember :id="row.item._id" />
               </div>
               <div class="stat-row-item m-5px jc-center">
@@ -190,7 +188,7 @@
               </div>
               <div class="stat-row-item m-5px jc-center">
 
-                <b-button variant="primary" size="sm" v-b-modal.modal-2>Добавить изображение</b-button>
+<!--                <b-button variant="primary" size="sm" v-b-modal.modal-2>Добавить изображение</b-button>-->
                 <b-modal id="modal-2" title="Добавить изображение">
                   <div>
                     <div>

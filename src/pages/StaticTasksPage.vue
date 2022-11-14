@@ -142,6 +142,7 @@
             Отмена
           </b-button>
           <b-dropdown v-else variant="link" no-caret>
+
             <template #button-content>
               <feather-icon icon="EditIcon" size="16" class="align-middle text-body"/>
             </template>

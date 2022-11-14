@@ -5,12 +5,13 @@ const ws = new WebSocket('ws://185.200.241.231:81/client')
 Vue.prototype.$ws = ws
 
 function isAuth(data) {
+  data.used = JSON.parse(data.used)
   if (data.used) {
-    if (data.used[0]) {
-      if (data.used[0].complete) {
+    if (data.used) {
+      if (data.used.status === 'success') {
         console.log('Auth with WS COMPLETED')
         return true
-      } else if (data.used[0].reason) {
+      } else if (data.used.reason) {
         console.log('Auth with ws ended with ERROR', data.used[0].reason)
         return false
       }
@@ -58,34 +59,34 @@ export default function socketPlugin() {
         }
 
         if (queryData.used[0].label === 'getAllUsers') {
-          store.dispatch('users/setAllUsers', queryData.used[0].receivedData)
+          store.dispatch('users/setAllUsers', queryData.used[0].response)
         }
 
         if (queryData.used[0].label === 'getAllReports') {
-          store.dispatch('reportslist/setAll', queryData.used[0].receivedData)
+          store.dispatch('reportslist/setAll', queryData.used[0].response)
         }
 
         if (queryData.used[0].label === 'getAllTasks') {
-          store.dispatch('tasks/setAllTasks', queryData.used[0].receivedData)
+          store.dispatch('tasks/setAllTasks', queryData.used[0].response)
         }
 
         if (queryData.used[0].label === 'getAllTaskList') {
-          store.dispatch('taskList/setAll', queryData.used[0].receivedData)
+          store.dispatch('taskList/setAll', queryData.used[0].response)
         }
 
         if (queryData.used[0].label === 'getAllStaticTasks') {
-          store.dispatch('staticTasks/setAll', queryData.used[0].receivedData)
+          store.dispatch('staticTasks/setAll', queryData.used[0].response)
         }
         if (queryData.used[0].label === 'getAllDynamicTasks') {
-          store.dispatch('dynamicTasks/setAll', queryData.used[0].receivedData)
+          store.dispatch('dynamicTasks/setAll', queryData.used[0].response)
         }
 
         if (queryData.used[0].label === 'getAllMatches') {
-          store.dispatch('matchList/setAll', queryData.used[0].receivedData)
+          store.dispatch('matchList/setAll', queryData.used[0].response)
         }
 
         if (queryData.used[0].label === 'getAllOrders') {
-          store.dispatch('orderList/setAll', queryData.used[0].receivedData)
+          store.dispatch('orderList/setAll', queryData.used[0].response)
         }
 
         if (queryData.used[0].label === 'updateUsers') {
@@ -108,7 +109,7 @@ export default function socketPlugin() {
         }
 
         if (queryData.used[0].label === 'getMatchesCount') {
-          store.commit('users/SET_MATCHES_COUNT', queryData.used[0].receivedData)
+          store.commit('users/SET_MATCHES_COUNT', queryData.used[0].response)
         }
 
         console.log(queryData)
@@ -129,12 +130,21 @@ export default function socketPlugin() {
         if (queryData.used[0].label === 'updateDynamicTasks') {
           store.dispatch('dynamicTasks/getAll')
         }
+        if (queryData.used[0].label === 'getUserPrefix') {
+          store.commit('users/SET_PREFIXES', queryData.used[0].response)
+        }
+        if (queryData.used[0].label === 'setPrefix') {
+          store.dispatch('users/getAllUsers')
+        }
+        if (queryData.used[0].label === 'addPrefix') {
+          store.dispatch('users/getUserPrefix')
+        }
         console.log(queryData)
       }
     }
     ws.onerror = function (event) {
-      store.commit('appData/SET_WS_IS_AUTH', false)
       console.log('Ошибка WebSocket')
+      store.commit('appData/SET_WS_IS_AUTH', false)
       console.log(event)
       ws.close()
     }

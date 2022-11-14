@@ -57,7 +57,7 @@ export default {
             method: 'get',
             model: 'User',
             filter: {},
-            fields: 'id profile.nickname role',
+            fields: 'id profile.nickname profile.avatar role',
           },
         })
       )
@@ -72,6 +72,7 @@ export default {
             }
             console.log('res', res)
             if (res.data) {
+              console.log(res.data)
               if (res.data.token) {
                 // send token in backend with websocket
                 this._vm.$ws.send(

@@ -123,7 +123,6 @@
                 required
             ></b-form-input>
           </b-form-group>
-          <div>{{ form }}</div>
         </b-form>
       </div>
     </div>
