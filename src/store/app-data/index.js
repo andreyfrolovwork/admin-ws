@@ -64,7 +64,6 @@ export default {
     },
     loginAction(ctx, userData) {
       return new Promise((resolve, reject) => {
-        debugger
         this._vm.$axios
           .post('user/login', userData)
           .then((res) => {

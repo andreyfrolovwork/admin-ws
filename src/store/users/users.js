@@ -1,4 +1,4 @@
-import sort from '@/libs/functions.js'
+import sort from '@/libs/functions'
 
 export default {
   namespaced: true,
@@ -104,32 +104,50 @@ export default {
 
       state.to = state.currentPage * state.perPage
     },
-    SET_ALL_USERS(state, usersData) {
-      let users = []
-      for (let user in usersData) {
-        users.push(usersData[user])
-      }
-      users = users.map((user) => {
-        let avatar = ''
-        /*if (user.profile.hasOwnProperty('avatar')) {
-          let binary = Buffer.from(user.profile.avatar.buffer.data) //or Buffer.from(data, 'binary')
-          let blob = new Blob([binary], { type: 'image/png' })
-          let urlCreator = window.URL || window.webkitURL
-          let imageUrl = urlCreator.createObjectURL(blob)
-          avatar = imageUrl
-          /!*          let img = document.querySelector(`#${user._id}`)
-          img.src = imageUrl*!/
-        }*/
-        return {
-          ...user,
-          avatar: avatar,
+    async SET_ALL_USERS(state, usersData) {
+      function normalizeUsers(usersData) {
+        let users = []
+        for (let user in usersData) {
+          users.push(usersData[user])
         }
-      })
-      state.data.statisticsItems[1].title = users.length
-      state.data.statisticsProfit.count = users.length
+        return users
+      }
+      async function getAvatars(users, vm) {
+        let avatars = users.map((user) => {
+          if (user.profile.hasOwnProperty('avatar')) {
+            return fetch('http://185.200.241.231/' + 'api/image/' + user.profile.avatar, {
+              method: 'get',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + vm['appData/getToken'],
+              },
+            }).then((r) => r.text())
+          } else {
+            return Promise.resolve('')
+          }
+        })
+        let loadedAvatars = await Promise.all(avatars)
+        return loadedAvatars
+      }
+      function setAvatars(users, avatars) {
+        let result = users.map((user, i) => {
+          let avatar = avatars[i]
+          return {
+            ...user,
+            avatar: avatar,
+          }
+        })
+        return result
+      }
+      const users = normalizeUsers(usersData)
+      const avatars = await getAvatars(users, this._vm)
+      const usersWithAvatars = setAvatars(users, avatars)
 
-      state.usersArray = users
-      state.usersInitArr = users
+      state.data.statisticsItems[1].title = usersWithAvatars.length
+      state.data.statisticsProfit.count = usersWithAvatars.length
+
+      state.usersArray = usersWithAvatars
+      state.usersInitArr = usersWithAvatars
     },
     SORT_WITH_SEARCH_QUERY(state, searchQuery) {
       if (searchQuery === '') {

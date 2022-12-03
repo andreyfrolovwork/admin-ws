@@ -296,7 +296,7 @@ export default {
       this.isCorrectPass = true
       this.$refs.loginForm.validate().then((success) => {
         console.log(success)
-        debugger
+
         if (success) {
           this.$store.dispatch('appData/loginAction', {
             username: this.username,
