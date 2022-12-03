@@ -1,6 +1,7 @@
 <template>
 
   <div>
+    <router-link to="/main2">go to query</router-link>
     <AddPrefix/>
     <b-card no-body class="mb-0">
       <!--      <button @click="sort">sort</button>    -->

@@ -12,7 +12,7 @@ const router = new VueRouter({
   },
   routes: [
     { path: '/', redirect: { name: 'main-page' } },
-    {
+        {
       path: '/main2',
       name: 'main-page2',
       component: () => import('@/views/dashboard/ecommerce/Ecommerce-copy2.vue'),
@@ -91,7 +91,7 @@ router.afterEach(() => {
   }
 })
 
-/*router.beforeEach((to, from, next) => {
+router.beforeEach((to, from, next) => {
   console.log(store)
   if (!store.state.appData.isAuth) {
     if (to.fullPath === '/login') {
@@ -102,6 +102,6 @@ router.afterEach(() => {
   } else {
     next()
   }
-})*/
+})
 
 export default router

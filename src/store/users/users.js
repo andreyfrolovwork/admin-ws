@@ -111,15 +111,15 @@ export default {
       }
       users = users.map((user) => {
         let avatar = ''
-        if (user.profile.hasOwnProperty('avatar')) {
+        /*if (user.profile.hasOwnProperty('avatar')) {
           let binary = Buffer.from(user.profile.avatar.buffer.data) //or Buffer.from(data, 'binary')
           let blob = new Blob([binary], { type: 'image/png' })
           let urlCreator = window.URL || window.webkitURL
           let imageUrl = urlCreator.createObjectURL(blob)
           avatar = imageUrl
-          /*          let img = document.querySelector(`#${user._id}`)
-          img.src = imageUrl*/
-        }
+          /!*          let img = document.querySelector(`#${user._id}`)
+          img.src = imageUrl*!/
+        }*/
         return {
           ...user,
           avatar: avatar,
@@ -259,21 +259,21 @@ export default {
     },
     addPrefix(ctx, prefix) {
       console.log('STORE__addPrefix()')
-      this._vm.$ws.send(
-        JSON.stringify({
-          event: 'syscall',
-          label: 'addPrefix',
-          query: {
-            method: 'get',
-            model: 'User',
-            needFeedback: true,
-            execute: {
-              function: 'addPrefix',
-              params: [prefix],
-            },
+      const value = {
+        event: 'syscall',
+        label: 'addPrefix',
+        query: {
+          method: 'get',
+          model: 'User',
+          needFeedback: true,
+          execute: {
+            function: 'addPrefix',
+            params: [prefix],
           },
-        })
-      )
+        },
+      }
+      console.log(value)
+      this._vm.$ws.send(JSON.stringify(value))
     },
   },
 }

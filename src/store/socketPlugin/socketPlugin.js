@@ -5,6 +5,7 @@ const ws = new WebSocket('ws://185.200.241.231:81/client')
 Vue.prototype.$ws = ws
 
 function isAuth(data) {
+  debugger
   data.used = JSON.parse(data.used)
   if (data.used) {
     if (data.used) {

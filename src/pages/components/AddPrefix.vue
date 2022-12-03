@@ -61,17 +61,9 @@ export default {
   props: ['isShow'],
   data() {
     return {
-      testOwner2: '',
       form: {
         prefix:'',
-        id: '',
-        game: '',
-        mapName: 0,
-        command1: 0,
-        command2: 0,
-        checked: []
       },
-      file: null,
     }
   },
   computed: {
@@ -82,7 +74,7 @@ export default {
   methods: {
     addPrefix() {
       this.$refs['my-modal-prefix'].hide()
-      this.$store.dispatch('users/addPrefix', prefix)
+      this.$store.dispatch('users/addPrefix', this.form.prefix)
       console.log(this.form)
     },
   }
