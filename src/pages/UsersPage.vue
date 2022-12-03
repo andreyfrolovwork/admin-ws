@@ -1,8 +1,9 @@
 <template>
 
   <div>
-    <router-link to="/main2">go to query</router-link>
+<!--    <router-link to="/main2">go to query</router-link>-->
     <AddPrefix/>
+    <AddImage model="User" :modelId="modelId"/>
     <b-card no-body class="mb-0">
       <!--      <button @click="sort">sort</button>    -->
       <img src="" alt="" id="photo">
@@ -11,18 +12,21 @@
         <b-row>
 
           <!-- Per Page -->
-          <b-col cols="12" md="4" class="d-flex align-items-center justify-content-start mb-1 mb-md-0">
+          <b-col cols="12" md="3" class="d-flex align-items-center justify-content-start mb-1 mb-md-0">
             <label>Показать</label>
             <v-select v-model="perPage" :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                       :options="$store.state.users.perPageOptions"
                       :clearable="false" class="per-page-selector d-inline-block mx-50"/>
             <label>записей</label>
           </b-col>
-          <b-col cols="12" md="4" class="d-flex align-items-center justify-content-start mb-1 mb-md-0">
-            <b-button variant="primary"  v-b-modal.modal-4 size="sm">Добавить префикс</b-button>
+          <b-col cols="12" md="3" class="d-flex align-items-center justify-content-start mb-1 mb-md-0">
+            <b-button variant="primary" @click="$store.dispatch('users/getAllUsers')" size="sm"> Обновить</b-button>
+          </b-col>
+          <b-col cols="12" md="3" class="d-flex align-items-center justify-content-start mb-1 mb-md-0">
+            <b-button variant="primary" v-b-modal.modal-4 size="sm">Добавить префикс</b-button>
           </b-col>
           <!-- Search -->
-          <b-col cols="12" md="4">
+          <b-col cols="12" md="3">
             <div class="d-flex align-items-center justify-content-end">
               <b-form-input v-model="searchQuery" class="d-inline-block mr-1"
                             placeholder="Поиск..."/>
@@ -38,9 +42,12 @@
         <!--  Column: avatar-->
         <template #cell(avatar)="data">
           <b-media vertical-align="center">
-            <small class="font-weight-bold d-block text-nowrap">
-              <img v-if="data.item.avatar !==''" class="users-avatar-img"  :src="data.item.avatar" alt="">
-              <img v-else class="users-avatar-img"  :src="require('@/assets/images/user.png')" alt=""></small>
+            <div class="icon_edit"><small class="font-weight-bold d-block text-nowrap">
+              <img v-if="data.item.avatar !==''" class="users-avatar-img" :src="data.item.avatar" alt="">
+              <img v-else class="users-avatar-img" :src="require('@/assets/images/user.png')" alt=""></small>
+              <feather-icon @click="setCurrentUser(data.item._id)" v-b-modal.modal-5 icon="EditIcon" size="16"
+                            class="align-middle text-body add_image_button"/>
+            </div>
           </b-media>
         </template>
         <!--  Column: ID-->
@@ -66,26 +73,11 @@
                 <feather-icon icon="EditIcon" size="16" class="align-middle text-body"/>
               </template>
               <b-dropdown-item v-for="prefix in $store.state.users.prefixes">
-                <span @click="$store.dispatch('users/setPrefix',{nickname:data.item.profile.nickname, prefix})" class="align-middle ml-50">{{ prefix }}</span>
+                <span @click="$store.dispatch('users/setPrefix',{nickname:data.item.profile.nickname, prefix})"
+                      class="align-middle ml-50">{{ prefix }}</span>
               </b-dropdown-item>
-<!--              <b-dropdown-item>
-                <span @click="setRole({
-                role:'privileged',
-                id:data.item._id
-                })" class="align-middle ml-50">privileged</span>
-              </b-dropdown-item>
-              <b-dropdown-item>
-                <span @click="setRole({
-                role:'admin',
-                id:data.item._id
-                })" class="align-middle ml-50">admin</span>
-              </b-dropdown-item>-->
-
             </b-dropdown>
           </div>
-<!--          <b-media v-if="data.item.hasOwnProperty('prefix')" vertical-align="center">
-            <small class="font-weight-bold d-block text-nowrap">{{ data.item.prefix }}</small>
-          </b-media>-->
           <b-media v-else vertical-align="center">
             <small class="font-weight-bold d-block text-nowrap">Префикс отсутствует</small>
           </b-media>
@@ -134,11 +126,6 @@
               <feather-icon icon="FileTextIcon"/>
               <span class="align-middle ml-50">Информация</span>
             </b-dropdown-item>
-            <!--
-                        <b-dropdown-item>
-                          <feather-icon icon="TrashIcon"/>
-                          <span class="align-middle ml-50">Удалить</span>
-                        </b-dropdown-item>-->
           </b-dropdown>
         </template>
       </b-table>
@@ -181,6 +168,7 @@ import {
   BBadge, BDropdown, BDropdownItem, BPagination,
 } from 'bootstrap-vue'
 import AddPrefix from '@/pages/components/AddPrefix.vue'
+import AddImage from "@/pages/components/AddImage.vue"
 import vSelect from "vue-select"
 
 export default {
@@ -200,7 +188,13 @@ export default {
     BDropdownItem,
     BPagination,
     vSelect,
-    AddPrefix
+    AddPrefix,
+    AddImage
+  },
+  data(){
+    return {
+      modelId:''
+    }
   },
   computed: {
     perPage: {
@@ -211,12 +205,12 @@ export default {
         return this.$store.state.users.perPage
       }
     },
-    searchQuery:{
-      set:function(value){
+    searchQuery: {
+      set: function (value) {
         console.log('set query', value)
         this.$store.dispatch('users/setSearchQuery', value)
       },
-      get:function (){
+      get: function () {
         return this.$store.state.users.searchQuery
       }
     },
@@ -230,6 +224,9 @@ export default {
     }
   },
   methods: {
+    setCurrentUser(id){
+      this.modelId = id
+    },
     sort() {
       this.$store.dispatch('users/setPerPage')
     },
@@ -251,5 +248,15 @@ export default {
   height: 50px;
   border-radius: 50%;
   object-fit: cover;
+}
+
+.icon_edit {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+}
+
+.add_image_button {
+  margin-left: 10px;
 }
 </style>

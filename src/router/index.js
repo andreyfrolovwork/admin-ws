@@ -12,11 +12,11 @@ const router = new VueRouter({
   },
   routes: [
     { path: '/', redirect: { name: 'main-page' } },
-        {
+    /*    {
       path: '/main2',
       name: 'main-page2',
       component: () => import('@/views/dashboard/ecommerce/Ecommerce-copy2.vue'),
-    },
+    },*/
     {
       path: '/main',
       name: 'main-page',

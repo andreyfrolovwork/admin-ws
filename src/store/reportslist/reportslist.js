@@ -133,7 +133,7 @@ export default {
           label: 'getAllReports',
           query: {
             method: 'get',
-            model: 'ReportList',
+            model: 'Report',
             filter: {},
             fields: 'id game reason describe',
           },

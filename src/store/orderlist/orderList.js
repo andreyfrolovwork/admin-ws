@@ -150,7 +150,7 @@ export default {
           label: 'getAllOrders',
           query: {
             method: 'get',
-            model: 'OrderList',
+            model: 'Order',
             filter: {},
             fields: '',
           },

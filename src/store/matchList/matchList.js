@@ -104,7 +104,7 @@ export default {
         state.array = state.initArray
       } else {
         const uNew = state.initArray.filter((el) => {
-          if (el.id.includes(state.searchQuery)) {
+          if (el.game.includes(state.searchQuery)) {
             return true
           }
         })
@@ -147,7 +147,7 @@ export default {
         state.array = state.initArray
       }
       const uNew = state.initArray.filter((el) => {
-        if (el.id.includes(searchQuery)) {
+        if (el.game.includes(searchQuery)) {
           return true
         }
       })
@@ -185,7 +185,7 @@ export default {
         event: 'syscall',
         label: 'updateMatch',
         query: {
-          model: 'MatchList',
+          model: 'Match',
           execute: {
             function: 'log',
             params: [
@@ -210,7 +210,7 @@ export default {
         event: 'syscall',
         label: 'updateMatch',
         query: {
-          model: 'MatchList',
+          model: 'Match',
           filter: {
             _id: payload._id,
           },
@@ -230,7 +230,7 @@ export default {
         event: 'syscall',
         label: 'updateMatch',
         query: {
-          model: 'MatchList',
+          model: 'Match',
           filter: {
             _id: payload._id,
           },
@@ -262,7 +262,7 @@ export default {
         label: 'updateMatch',
         query: {
           method: 'set',
-          model: 'MatchList',
+          model: 'Match',
           filter: {
             _id: id,
           },
@@ -306,7 +306,7 @@ export default {
           label: 'getAllMatches',
           query: {
             method: 'get',
-            model: 'MatchList',
+            model: 'Match',
             filter: {},
             fields: '',
           },
@@ -316,6 +316,25 @@ export default {
     setPerPage(ctx, perPage) {
       ctx.commit('SET_PER_PAGE', perPage)
       ctx.commit('SORT')
+    },
+    setImage(ctx, payload) {
+      debugger
+      this._vm.$ws.send(
+        JSON.stringify({
+          label: 'setMatchImage',
+          event: 'syscall',
+          query: {
+            model: payload.model,
+            filter: {
+              id: payload.modelId,
+            },
+            execute: {
+              function: 'setScreen',
+              params: [payload.imageId],
+            },
+          },
+        })
+      )
     },
   },
 }

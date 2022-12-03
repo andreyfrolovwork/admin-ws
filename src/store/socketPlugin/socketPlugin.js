@@ -139,6 +139,13 @@ export default function socketPlugin() {
         if (queryData.used[0].label === 'addPrefix') {
           store.dispatch('users/getUserPrefix')
         }
+        if (queryData.used[0].label === 'setUserImage') {
+          store.dispatch('users/getAllUsers')
+        }
+        if (queryData.used[0].label === 'setMatchImage') {
+          store.dispatch('matchList/getAll')
+        }
+
         console.log(queryData)
       }
     }

@@ -1,4 +1,5 @@
 import sort from '@/libs/functions'
+import config from '@/config.js'
 
 export default {
   namespaced: true,
@@ -115,7 +116,7 @@ export default {
       async function getAvatars(users, vm) {
         let avatars = users.map((user) => {
           if (user.profile.hasOwnProperty('avatar')) {
-            return fetch('http://185.200.241.231/' + 'api/image/' + user.profile.avatar, {
+            return fetch(config.url + 'api/image/' + user.profile.avatar, {
               method: 'get',
               headers: {
                 'Content-Type': 'application/json',
@@ -292,6 +293,24 @@ export default {
       }
       console.log(value)
       this._vm.$ws.send(JSON.stringify(value))
+    },
+    setImage(ctx, payload) {
+      debugger
+      const config = {
+        event: 'syscall',
+        label: 'setUserImage',
+        query: {
+          model: payload.model,
+          filter: {
+            _id: payload.modelId,
+          },
+          execute: {
+            function: 'setAvatar',
+            params: [payload.imageId],
+          },
+        },
+      }
+      this._vm.$ws.send(JSON.stringify(config))
     },
   },
 }

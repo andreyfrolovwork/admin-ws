@@ -1,6 +1,7 @@
 <template>
   <div>
     <AddMatch/>
+    <AddImage model="Users" :modelId="modelId"/>
     <b-card no-body class="mb-0">
       <!--      <button @click="sort">sort</button>    -->
       <div class="m-2">
@@ -8,18 +9,21 @@
         <b-row>
 
           <!-- Per Page -->
-          <b-col cols="12" md="4" class="d-flex align-items-center justify-content-start mb-1 mb-md-0">
+          <b-col cols="12" md="3" class="d-flex align-items-center justify-content-start mb-1 mb-md-0">
             <label>Показать</label>
             <v-select v-model="perPage" :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
                       :options="$store.state.matchList.perPageOptions"
                       :clearable="false" class="per-page-selector d-inline-block mx-50"/>
             <label>записей</label>
           </b-col>
-          <b-col cols="12" md="4" class="d-flex align-items-center justify-content-start mb-1 mb-md-0">
+          <b-col cols="12" md="2" class="d-flex align-items-center justify-content-start mb-1 mb-md-0">
             <b-button variant="primary"  v-b-modal.modal-3 size="sm">Добавить матч</b-button>
           </b-col>
+          <b-col cols="12" md="2" class="d-flex align-items-center justify-content-start mb-1 mb-md-0">
+            <b-button variant="primary" @click="$store.dispatch('matchList/getAll')" size="sm"> Обновить</b-button>
+          </b-col>
           <!-- Search -->
-          <b-col cols="12" md="4">
+          <b-col cols="12" md="3">
             <div class="d-flex align-items-center justify-content-end">
               <b-form-input v-model="searchQuery" class="d-inline-block mr-1"
                             placeholder="Поиск..."/>
@@ -37,11 +41,11 @@
         <template #cell(id)="data">
 
           <b-media vertical-align="center">
-            <b-form-input
+<!--            <b-form-input
                 v-if="data.item.isEdit"
                 v-bind:value="data.item.id"
-                v-on:change="changeField($event,{id:data.item._id,field:`id`})"/>
-            <small v-else class="font-weight-bold d-block text-nowrap">{{ data.item.id }}</small>
+                v-on:change="changeField($event,{id:data.item._id,field:`id`})"/>-->
+            <small class="font-weight-bold d-block text-nowrap">{{ data.item._id }}</small>
           </b-media>
 
         </template>
@@ -255,6 +259,8 @@ import {
 import vSelect from "vue-select"
 import AddMatch from '@/pages/components/AddMatch.vue'
 import AddMember from '@/pages/components/AddMember.vue'
+import AddImage from '@/pages/components/AddImage.vue'
+
 export default {
   name: "MatchListPage",
   components: {
@@ -283,12 +289,14 @@ export default {
     BFormCheckboxGroup,
     BFormSelect,
     AddMatch,
-    AddMember
+    AddMember,
+    AddImage
   },
   data() {
     return {
       testOwner2: '',
-      file: null
+      file: null,
+      modelId:''
     }
   },
   computed: {
@@ -329,6 +337,9 @@ export default {
     }
   },
   methods: {
+    setCurrentUser(id){
+      this.modelId = id
+    },
     addImage() {
       console.log('this.file', this.file)
       console.log('this.file', this.file)
